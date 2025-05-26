@@ -168,7 +168,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     event = "User FilePost",
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
     opts = {
       ensure_installed = { "lua_ls", "pyright", "html", "cssls", "clangd", "bashls", "tsserver" },
       automatic_installation = true,
@@ -184,7 +184,8 @@ return {
     opts = {
       ensure_installed = {
         "vim", "lua", "vimdoc",
-        "html", "css"
+        "html", "css", "javascript", "typescript",
+        "python", "json", "yaml", "markdown", "bash"
       },
       highlight = { enable = true },
       indent = { enable = true },
@@ -268,5 +269,51 @@ return {
         },
       }
     end,
+  },
+
+  -- Git integration
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "User FilePost",
+    opts = {
+      signs = {
+        add = { text = "│" },
+        change = { text = "│" },
+        delete = { text = "󰍵" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
+        untracked = { text = "│" },
+      },
+    },
+    config = function(_, opts)
+      require("gitsigns").setup(opts)
+      local map = vim.keymap.set
+      map("n", "<leader>gh", "<cmd>Gitsigns preview_hunk<CR>", { desc = "Preview hunk" })
+      map("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", { desc = "Blame line" })
+    end,
+  },
+
+  -- Auto pairs
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {},
+    config = function(_, opts)
+      require("nvim-autopairs").setup(opts)
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      local cmp = require("cmp")
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+    end,
+  },
+
+  -- Better diagnostics
+  {
+    "folke/trouble.nvim",
+    cmd = { "Trouble", "TroubleToggle" },
+    keys = {
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
+    },
+    opts = {},
   },
 }

@@ -20,9 +20,7 @@ o.undofile = true
 o.updatetime = 250
 o.termguicolors = true
 
--- Disable some default plugins
-g.loaded_netrw = 1
-g.loaded_netrwPlugin = 1
+-- Disable some default plugins (netrw disabled in lazy.lua)
 
 -- add yours here!
 -- o.cursorlineopt ='both' -- to enable cursorline!
