@@ -14,6 +14,10 @@ return {
     "nvim-tree/nvim-tree.lua",
     dependencies = "nvim-tree/nvim-web-devicons",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    keys = {
+      { "<C-n>", "<cmd>NvimTreeToggle<CR>", desc = "Toggle nvim-tree" },
+      { "<leader>e", "<cmd>NvimTreeFocus<CR>", desc = "Focus nvim-tree" },
+    },
     opts = {
       filters = { dotfiles = false },
       disable_netrw = true,
@@ -48,8 +52,6 @@ return {
     },
     config = function(_, opts)
       require("nvim-tree").setup(opts)
-      vim.keymap.set("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim-tree" })
-      vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "Focus nvim-tree" })
     end,
   },
 
@@ -68,6 +70,11 @@ return {
   {
     "akinsho/bufferline.nvim",
     event = "BufReadPre",
+    keys = {
+      { "<Tab>", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer", mode = "n" },
+      { "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer", mode = "n" },
+      { "<leader>x", "<cmd>bdelete<CR>", desc = "Close buffer" },
+    },
     opts = {
       options = {
         themable = true,
@@ -80,10 +87,6 @@ return {
     },
     config = function(_, opts)
       require("bufferline").setup(opts)
-      local map = vim.keymap.set
-      map("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
-      map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
-      map("n", "<leader>x", "<cmd>bdelete<CR>", { desc = "Close buffer" })
     end,
   },
 
